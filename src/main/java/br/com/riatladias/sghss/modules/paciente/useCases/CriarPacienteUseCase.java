@@ -1,8 +1,24 @@
 package br.com.riatladias.sghss.modules.paciente.useCases;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.riatladias.sghss.exceptions.UserFoundException;
+import br.com.riatladias.sghss.modules.paciente.PacienteEntity;
+import br.com.riatladias.sghss.modules.paciente.PacienteRepository;
 
 @Service
 public class CriarPacienteUseCase {
-    
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    public PacienteEntity execute(PacienteEntity pacienteEntity) {
+        this.pacienteRepository.findByNomeOrCpf(pacienteEntity.getNome(), pacienteEntity.getCpf())
+                .ifPresent(paciente -> {
+                    throw new UserFoundException("Paciente já existe");
+                });
+
+        return this.pacienteRepository.save(pacienteEntity);
+    }
 }
