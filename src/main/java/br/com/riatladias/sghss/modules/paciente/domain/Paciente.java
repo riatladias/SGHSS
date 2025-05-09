@@ -1,4 +1,4 @@
-package br.com.riatladias.sghss.modules.paciente;
+package br.com.riatladias.sghss.modules.paciente.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "paciente")
-public class PacienteEntity {
+public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
