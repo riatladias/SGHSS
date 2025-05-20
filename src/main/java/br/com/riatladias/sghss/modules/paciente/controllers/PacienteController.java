@@ -19,13 +19,14 @@ public class PacienteController {
     private CriarPacienteUseCase criarPacienteUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<Object> create(@Valid @RequestBody Paciente patientEntity) {
+    public ResponseEntity<Object> create(@Valid @RequestBody Paciente paciente) {
         try {
-            var result = this.criarPacienteUseCase.execute(patientEntity);
+            var result = this.criarPacienteUseCase.execute(paciente);
             return ResponseEntity.ok().body(result);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    
 }
