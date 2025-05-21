@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.riatladias.sghss.modules.consulta.domain.Consulta;
 import br.com.riatladias.sghss.modules.paciente.domain.Paciente;
 import br.com.riatladias.sghss.modules.profissional.domain.ProfissionalDeSaude;
 import jakarta.persistence.Column;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
@@ -39,9 +41,8 @@ public class Prontuario {
     private UUID profissionalId;
 
     // Consulta
-    
-
-
+    @OneToOne
+    private Consulta consulta;
 
     private String descricao;
 
