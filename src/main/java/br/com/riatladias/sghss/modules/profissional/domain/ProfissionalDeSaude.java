@@ -1,6 +1,9 @@
 package br.com.riatladias.sghss.modules.profissional.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +32,8 @@ public class ProfissionalDeSaude {
     @Email
     private String email;
     private String telefone;
+
+    @CreationTimestamp 
+    private LocalDateTime createdAt;
 
 }

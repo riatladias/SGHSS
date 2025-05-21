@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.riatladias.sghss.modules.shared.domain.Endereco;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,15 +28,18 @@ public class Paciente {
 
     @NotBlank
     private String nome;
-    
+
     @CPF(message = "Cpf inválido")
     private String cpf;
-    
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dataNascimento;
-    
+
     @Email(message = "O campo [email] deve conter um e-mail válido")
     private String email;
+
+    @Embedded
+    private Endereco endereco;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
