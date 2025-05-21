@@ -7,13 +7,19 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.riatladias.sghss.modules.paciente.domain.Paciente;
 import br.com.riatladias.sghss.modules.profissional.domain.ProfissionalDeSaude;
+import br.com.riatladias.sghss.modules.prontuario.domain.Prontuario;
+import br.com.riatladias.sghss.modules.shared.domain.enums.StatusConsulta;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,10 +42,9 @@ public class Consulta {
     @ManyToOne
     @JoinColumn(name = "paciente_id", insertable = false, updatable = false)
     private Paciente paciente;
-
     @Column(name = "paciente_id", nullable = false)
     private UUID pacienteId;
-    
+
     // PROFISSIONAL DE SAUDE
     @ManyToOne
     @JoinColumn(name = "profissional_id", insertable = false, updatable = false)
@@ -48,6 +53,12 @@ public class Consulta {
     private UUID profissionalId;
 
     private String observacoes;
+
+    @OneToOne(mappedBy = "consulta", cascade = CascadeType.ALL)
+    private Prontuario prontuario;
+
+    @Enumerated(EnumType.STRING)
+    private StatusConsulta status;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
