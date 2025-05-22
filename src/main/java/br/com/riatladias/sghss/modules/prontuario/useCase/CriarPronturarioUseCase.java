@@ -1,19 +1,19 @@
-package br.com.riatladias.sghss.modules.consulta.useCase;
+package br.com.riatladias.sghss.modules.prontuario.useCase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.riatladias.sghss.exceptions.PacienteNotFoundException;
 import br.com.riatladias.sghss.exceptions.ProfissionalNotFoundException;
-import br.com.riatladias.sghss.modules.consulta.domain.Consulta;
-import br.com.riatladias.sghss.modules.consulta.dto.ConsultaRequestDTO;
-import br.com.riatladias.sghss.modules.consulta.repository.ConsultaRepository;
 import br.com.riatladias.sghss.modules.paciente.repository.PacienteRepository;
 import br.com.riatladias.sghss.modules.profissional.repository.ProfissionalRepository;
-import br.com.riatladias.sghss.modules.shared.domain.enums.StatusConsulta;
+import br.com.riatladias.sghss.modules.prontuario.domain.Prontuario;
+import br.com.riatladias.sghss.modules.prontuario.dto.ProntuarioResquestDTO;
+import br.com.riatladias.sghss.modules.prontuario.repository.ProntuarioRepository;
 
 @Service
-public class CriarConsultaUseCase {
+public class CriarPronturarioUseCase {
+
     @Autowired
     private PacienteRepository pacienteRepository;
 
@@ -21,9 +21,10 @@ public class CriarConsultaUseCase {
     private ProfissionalRepository profissionalRepository;
 
     @Autowired
-    private ConsultaRepository consultaRepository;
+    private ProntuarioRepository prontuarioRepository;
 
-    public Consulta execute(ConsultaRequestDTO dto) {
+    public Prontuario execute(ProntuarioResquestDTO dto ) {
+
         this.pacienteRepository.findById(dto.getPacienteId())
                 .orElseThrow(() -> {
                     throw new PacienteNotFoundException();
@@ -34,15 +35,16 @@ public class CriarConsultaUseCase {
                     throw new ProfissionalNotFoundException();
                 });
 
-        var consulta = Consulta.builder()
-                .dataHora(dto.getDataHora())
-                .pacienteId(dto.getPacienteId())
-                .profissionalId(dto.getProfissionalId())
-                .observacoes(dto.getObservacoes())
-                .status(StatusConsulta.AGENDADA)
-                .build();
+        var prontuario = Prontuario.builder()
+        .diagnostico(dto.getDiagnostico())
+        .exame(dto.getExame())
+        .anotacoes(dto.getAnotacoes())
+        .pacienteId(dto.getPacienteId())
+        .profissionalId(dto.getProfissionalId())
+        .build();
 
-        return this.consultaRepository.save(consulta);
+        return this.prontuarioRepository.save(prontuario);
+
 
     }
 }

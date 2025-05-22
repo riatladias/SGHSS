@@ -16,15 +16,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity(name = "prontuario")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Prontuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    private String diagnostico;
+
+    private String exame;
 
     // PACIENTE
     @ManyToOne
@@ -44,7 +54,7 @@ public class Prontuario {
     @OneToOne
     private Consulta consulta;
 
-    private String descricao;
+    private String anotacoes;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
