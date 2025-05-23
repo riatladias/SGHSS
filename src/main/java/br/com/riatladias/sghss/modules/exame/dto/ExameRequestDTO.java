@@ -1,5 +1,6 @@
-package br.com.riatladias.sghss.modules.prontuario.dto;
+package br.com.riatladias.sghss.modules.exame.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProntuarioResquestDTO {
+public class ExameRequestDTO {
     @NotNull
     private UUID pacienteId;
 
@@ -20,11 +21,11 @@ public class ProntuarioResquestDTO {
     private UUID profissionalId;
 
     @NotNull
-    private String anotacoes;
-
+    private String tipo;
+    
     @NotNull
-    private String diagnostico;
+    private LocalDateTime dataHora;
 
-    private String exame;
+    private String resultado;
 
 }
