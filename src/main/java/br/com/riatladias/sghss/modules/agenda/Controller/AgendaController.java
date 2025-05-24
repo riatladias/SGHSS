@@ -1,14 +1,20 @@
 package br.com.riatladias.sghss.modules.agenda.Controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.riatladias.sghss.modules.agenda.domain.AgendaMedica;
 import br.com.riatladias.sghss.modules.agenda.dto.AgendaRequestDTO;
 import br.com.riatladias.sghss.modules.agenda.useCase.CriarAgendaUseCase;
+import br.com.riatladias.sghss.modules.agenda.useCase.ListarAgendaMedica;
 import jakarta.validation.Valid;
 
 @RestController
@@ -17,6 +23,9 @@ public class AgendaController {
 
     @Autowired
     private CriarAgendaUseCase criarAgendaUseCase;
+
+    @Autowired
+    private ListarAgendaMedica listarAgendaMedica;
 
     @PostMapping("/criar")
     public ResponseEntity<Object> gerarAgenda(@Valid @RequestBody AgendaRequestDTO dto) {
@@ -28,13 +37,9 @@ public class AgendaController {
         }
     }
 
-    // @GetMapping("/disponiveis")
-    // public ResponseEntity<List<AgendaMedica>> listarDisponiveis(
-    // @RequestParam Long profissionalId,
-    // @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data
-    // ) {
-    // List<AgendaMedica> disponiveis =
-    // agendaService.listarDisponiveis(profissionalId, data);
-    // return ResponseEntity.ok(disponiveis);
-    // }
+    @GetMapping("/disponiveis")
+    public ResponseEntity<Optional<List<AgendaMedica>>> listarDisponiveis(@Valid @RequestBody AgendaRequestDTO dto) {
+        var disponiveis = this.listarAgendaMedica.execute(dto);
+        return ResponseEntity.ok().body(disponiveis);
+    }
 }

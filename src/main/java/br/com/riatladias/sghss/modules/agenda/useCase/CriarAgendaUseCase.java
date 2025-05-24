@@ -1,10 +1,8 @@
 package br.com.riatladias.sghss.modules.agenda.useCase;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class CriarAgendaUseCase {
     private AgendaMedicaRepositoy agendaMedicaRepositoy;
 
     @Transactional
-    public AgendaMedica execute(AgendaRequestDTO dto) {
+    public List<AgendaMedica> execute(AgendaRequestDTO dto) {
         var profissional = this.profissionalRepository.findById(dto.getProfissionalId())
                 .orElseThrow(() -> {
                     throw new ProfissionalNotFoundException();
@@ -35,8 +33,6 @@ public class CriarAgendaUseCase {
         List<AgendaMedica> slots = new ArrayList<>();
 
         LocalTime atual = dto.getHoraInicio();
-
-        AgendaMedica slot = null;
 
         while (atual.plusMinutes(dto.getDuracaoMinutos()).compareTo(dto.getHoraFim()) <= 0) {
 
@@ -47,26 +43,21 @@ public class CriarAgendaUseCase {
                             profissional.getId(), dto.getData(), slotFim, atual);
             // Se não houver conflito, cria o slot
             if (!conflito) {
-                slot = AgendaMedica.builder()
+                AgendaMedica slot = AgendaMedica.builder()
                         .profissionalId(profissional.getId())
                         .data(dto.getData())
                         .horaInicio(atual)
                         .horaFim(slotFim)
                         .disponivel(true)
                         .build();
-
+                slots.add(slot);
             }
             // Incrementa para o próximo slot
             atual = slotFim;
-            
         }
 
-        this.agendaMedicaRepositoy.saveAll(slots);
 
-        return slot;
-    }
-
-    public List<AgendaMedica> listarDisponiveis(UUID profissionalId, LocalDate data) {
-        return this.agendaMedicaRepositoy.findByProfissionalIdAndDisponivelTrueAndData(profissionalId, data);
+        
+        return this.agendaMedicaRepositoy.saveAll(slots);
     }
 }

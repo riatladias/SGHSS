@@ -18,6 +18,9 @@ public class ProntuarioResquestDTO {
 
     @NotNull
     private UUID profissionalId;
+    @NotNull
+
+    private UUID consultaId;
 
     @NotNull
     private String anotacoes;

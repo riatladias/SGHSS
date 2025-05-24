@@ -51,6 +51,7 @@ public class Consulta {
     @Column(name = "profissional_id", nullable = false)
     private UUID profissionalId;
     
+    // PRONTUARIO
     @OneToOne(mappedBy = "consulta", cascade = CascadeType.ALL)
     private Prontuario prontuario;
     

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.riatladias.sghss.exceptions.ConsultaNotfound;
+import br.com.riatladias.sghss.exceptions.ConsultaNotfoundException;
 import br.com.riatladias.sghss.modules.consulta.dto.CancelarConsultaRequestDTO;
 import br.com.riatladias.sghss.modules.consulta.dto.CancelarConsultaResponseDTO;
 import br.com.riatladias.sghss.modules.consulta.repository.ConsultaRepository;
@@ -20,7 +20,7 @@ public class CancelarConsultaUseCase {
     public CancelarConsultaResponseDTO execute(CancelarConsultaRequestDTO dto) {
         var consulta = this.consultaRepository.findById(dto.getConsultaId())
                 .orElseThrow(() -> {
-                    throw new ConsultaNotfound();
+                    throw new ConsultaNotfoundException();
                 });
 
         if (consulta.getStatus() != StatusConsulta.AGENDADA) {

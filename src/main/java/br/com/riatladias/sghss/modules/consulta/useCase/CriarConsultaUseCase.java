@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.riatladias.sghss.exceptions.PacienteNotFoundException;
 import br.com.riatladias.sghss.exceptions.ProfissionalNotFoundException;
+import br.com.riatladias.sghss.modules.agenda.repository.AgendaMedicaRepositoy;
 import br.com.riatladias.sghss.modules.consulta.domain.Consulta;
 import br.com.riatladias.sghss.modules.consulta.dto.ConsultaRequestDTO;
 import br.com.riatladias.sghss.modules.consulta.repository.ConsultaRepository;
@@ -23,9 +24,9 @@ public class CriarConsultaUseCase {
     @Autowired
     private ConsultaRepository consultaRepository;
 
-    // @Autowired
-    // private AgendaRepositoy agendaRepositoy;
-    
+    @Autowired
+    private AgendaMedicaRepositoy agendaMedicaRepositoy;
+
     public Consulta execute(ConsultaRequestDTO dto) {
         this.pacienteRepository.findById(dto.getPacienteId())
                 .orElseThrow(() -> {
@@ -37,10 +38,22 @@ public class CriarConsultaUseCase {
                     throw new ProfissionalNotFoundException();
                 });
 
+        var agenda = this.agendaMedicaRepositoy.findById(dto.getAgendaId())
+                .orElseThrow(() -> new RuntimeException("Agenda não encontrada"));
+
+        if (!agenda.isDisponivel()) {
+            throw new RuntimeException("Horário indisponível");
+        }
+        
+        agenda.setDisponivel(false);
+
+        this.agendaMedicaRepositoy.save(agenda);
+
         var consulta = Consulta.builder()
                 .pacienteId(dto.getPacienteId())
                 .profissionalId(dto.getProfissionalId())
                 .observacoes(dto.getObservacoes())
+                .agenda(agenda)
                 .status(StatusConsulta.AGENDADA)
                 .build();
 

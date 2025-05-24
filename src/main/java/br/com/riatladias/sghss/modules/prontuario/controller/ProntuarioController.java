@@ -27,6 +27,5 @@ public class ProntuarioController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 }

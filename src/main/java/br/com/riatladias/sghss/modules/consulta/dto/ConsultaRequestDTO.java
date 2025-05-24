@@ -1,7 +1,5 @@
 package br.com.riatladias.sghss.modules.consulta.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
@@ -22,13 +20,7 @@ public class ConsultaRequestDTO {
     private UUID profissionalId;
 
     @NotNull
-    private LocalDate data;
-    
-    @NotNull
-    private LocalTime horaInicio;
-    
-    @NotNull
-    private LocalTime horaFim;
+    private UUID agendaId;
 
     private String observacoes;
 }
