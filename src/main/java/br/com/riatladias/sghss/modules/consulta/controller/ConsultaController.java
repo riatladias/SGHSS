@@ -16,6 +16,8 @@ import br.com.riatladias.sghss.modules.consulta.dto.ConsultaRequestDTO;
 import br.com.riatladias.sghss.modules.consulta.useCase.CancelarConsultaUseCase;
 import br.com.riatladias.sghss.modules.consulta.useCase.CriarConsultaUseCase;
 import br.com.riatladias.sghss.modules.consulta.useCase.ListagemDeConsultaUseCase;
+import br.com.riatladias.sghss.modules.consulta.useCase.ObterConsultaUseCase;
+import br.com.riatladias.sghss.modules.consulta.useCase.RealizarConsultaUseCase;
 import jakarta.validation.Valid;
 
 @RestController
@@ -23,7 +25,10 @@ import jakarta.validation.Valid;
 public class ConsultaController {
 
     @Autowired
-    private CriarConsultaUseCase consultaUseCase;
+    private CriarConsultaUseCase criarConsultaUseCase;
+
+    @Autowired
+    private ObterConsultaUseCase obterConsultaUseCase;
 
     @Autowired
     private ListagemDeConsultaUseCase listagemDeConsultaUseCase;
@@ -31,10 +36,23 @@ public class ConsultaController {
     @Autowired
     private CancelarConsultaUseCase cancelarConsultaUseCase;
 
+    @Autowired
+    private RealizarConsultaUseCase realizarConsultaUseCase;
+
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody ConsultaRequestDTO consultaRequestDTO) {
         try {
-            var result = this.consultaUseCase.execute(consultaRequestDTO);
+            var result = this.criarConsultaUseCase.execute(consultaRequestDTO);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Object> obterConsulta(@Valid @RequestBody UUID id) {
+        try {
+            var result = this.obterConsultaUseCase.execute(id);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -56,6 +74,16 @@ public class ConsultaController {
         try {
             var consulta = this.cancelarConsultaUseCase.execute(dto);
             return ResponseEntity.ok().body(consulta);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/realizar")
+    public ResponseEntity<Object> realizarConsulta(@RequestBody UUID id) {
+        try {
+            var result = this.realizarConsultaUseCase.execute(id);
+            return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
