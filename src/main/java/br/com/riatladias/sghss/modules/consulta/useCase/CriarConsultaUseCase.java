@@ -23,6 +23,9 @@ public class CriarConsultaUseCase {
     @Autowired
     private ConsultaRepository consultaRepository;
 
+    // @Autowired
+    // private AgendaRepositoy agendaRepositoy;
+    
     public Consulta execute(ConsultaRequestDTO dto) {
         this.pacienteRepository.findById(dto.getPacienteId())
                 .orElseThrow(() -> {
@@ -35,7 +38,6 @@ public class CriarConsultaUseCase {
                 });
 
         var consulta = Consulta.builder()
-                .dataHora(dto.getDataHora())
                 .pacienteId(dto.getPacienteId())
                 .profissionalId(dto.getProfissionalId())
                 .observacoes(dto.getObservacoes())

@@ -41,7 +41,6 @@ public class HistoricoClinicoUseCase {
                 .stream().map(consulta -> {
                     return ConsultaDTO.builder()
                             .id(consulta.getId())
-                            .dataHora(consulta.getDataHora())
                             .profissional(consulta.getProfissionalDeSaude().getNome())
                             .status(consulta.getStatus())
                             .build();

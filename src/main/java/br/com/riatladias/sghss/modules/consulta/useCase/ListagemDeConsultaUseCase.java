@@ -32,7 +32,6 @@ public class ListagemDeConsultaUseCase {
                 .stream().map(consulta -> {
                     return ConsultaDTO.builder()
                             .id(consulta.getId())
-                            .dataHora(consulta.getDataHora())
                             .profissional(consulta.getProfissionalDeSaude().getNome())
                             .status(consulta.getStatus())
                             .observacoes(consulta.getObservacoes())

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import br.com.riatladias.sghss.modules.agenda.domain.AgendaMedica;
 import br.com.riatladias.sghss.modules.paciente.domain.Paciente;
 import br.com.riatladias.sghss.modules.profissional.domain.ProfissionalDeSaude;
 import br.com.riatladias.sghss.modules.prontuario.domain.Prontuario;
@@ -35,34 +36,37 @@ public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    private LocalDateTime dataHora;
     
-    private String observacoes;
-
     // PACIENTE
     @ManyToOne
     @JoinColumn(name = "paciente_id", insertable = false, updatable = false)
     private Paciente paciente;
     @Column(name = "paciente_id", nullable = false)
     private UUID pacienteId;
-
+    
     // PROFISSIONAL DE SAUDE
     @ManyToOne
     @JoinColumn(name = "profissional_id", insertable = false, updatable = false)
     private ProfissionalDeSaude profissionalDeSaude;
     @Column(name = "profissional_id", nullable = false)
     private UUID profissionalId;
-
+    
     @OneToOne(mappedBy = "consulta", cascade = CascadeType.ALL)
     private Prontuario prontuario;
-
+    
     @Enumerated(EnumType.STRING)
     private StatusConsulta status;
-
+    
+    // EM CASO CANCELAMENTO DA CONSULTA
     private String motivoDoCancelamento;
     private LocalDateTime dataDoCancelamento;
-
+    
+    // AGENDA MEDICA
+    @OneToOne
+    private AgendaMedica agenda;
+    
+    private String observacoes;
+    
     @CreationTimestamp
     private LocalDateTime createdAt;
 }

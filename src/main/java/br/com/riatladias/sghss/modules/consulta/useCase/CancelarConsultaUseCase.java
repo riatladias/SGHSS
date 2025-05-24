@@ -35,7 +35,6 @@ public class CancelarConsultaUseCase {
 
         return CancelarConsultaResponseDTO.builder()
                 .id(consulta.getId())
-                .dataHora(consulta.getDataHora())
                 .profissionalDeSaude(consulta.getProfissionalDeSaude().getNome())
                 .observacoes(consulta.getObservacoes())
                 .status(consulta.getStatus())
