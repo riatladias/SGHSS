@@ -37,6 +37,8 @@ public class Consulta {
     private UUID id;
 
     private LocalDateTime dataHora;
+    
+    private String observacoes;
 
     // PACIENTE
     @ManyToOne
@@ -52,13 +54,14 @@ public class Consulta {
     @Column(name = "profissional_id", nullable = false)
     private UUID profissionalId;
 
-    private String observacoes;
-
     @OneToOne(mappedBy = "consulta", cascade = CascadeType.ALL)
     private Prontuario prontuario;
 
     @Enumerated(EnumType.STRING)
     private StatusConsulta status;
+
+    private String motivoDoCancelamento;
+    private LocalDateTime dataDoCancelamento;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

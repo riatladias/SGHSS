@@ -1,4 +1,4 @@
-package br.com.riatladias.sghss.modules.prontuario.dto;
+package br.com.riatladias.sghss.modules.consulta.dto;
 
 import java.util.UUID;
 
@@ -12,17 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProntuarioResquestDTO {
+public class CancelarConsultaRequestDTO {
     @NotNull
-    private UUID pacienteId;
-
+    private UUID consultaId;
     @NotNull
-    private UUID profissionalId;
-
-    @NotNull
-    private String anotacoes;
-
-    @NotNull
-    private String diagnostico;
-
+    private String motivoDoCancelamento;
 }

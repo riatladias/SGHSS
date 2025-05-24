@@ -37,7 +37,6 @@ public class CriarPronturarioUseCase {
 
         var prontuario = Prontuario.builder()
         .diagnostico(dto.getDiagnostico())
-        .exame(dto.getExame())
         .anotacoes(dto.getAnotacoes())
         .pacienteId(dto.getPacienteId())
         .profissionalId(dto.getProfissionalId())

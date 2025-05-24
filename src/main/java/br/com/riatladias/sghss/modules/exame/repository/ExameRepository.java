@@ -9,6 +9,6 @@ import br.com.riatladias.sghss.modules.exame.domain.Exame;
 
 public interface ExameRepository extends JpaRepository<Exame, UUID> {
     
-    public List<Exame> findByPacienteId(UUID pacienteId);
+    List<Exame> findByPacienteId(UUID pacienteId);
 
 }

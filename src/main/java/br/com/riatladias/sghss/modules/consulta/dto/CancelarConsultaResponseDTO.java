@@ -1,4 +1,4 @@
-package br.com.riatladias.sghss.modules.historico.dto;
+package br.com.riatladias.sghss.modules.consulta.dto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,11 +13,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConsultaDTO {
-
+public class CancelarConsultaResponseDTO {
     private UUID id;
     private LocalDateTime dataHora;
-    private String profissional;
     private String observacoes;
     private StatusConsulta status;
+    private String nomePaciente;
+    private String profissionalDeSaude;
+    private String motivoDoCancelamento;
+    private LocalDateTime dataDoCancelamento;
 }

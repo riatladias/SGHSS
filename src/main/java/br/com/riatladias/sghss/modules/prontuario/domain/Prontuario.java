@@ -34,8 +34,6 @@ public class Prontuario {
 
     private String diagnostico;
 
-    private String exame;
-
     // PACIENTE
     @ManyToOne
     @JoinColumn(name = "paciente_id", insertable = false, updatable = false)
