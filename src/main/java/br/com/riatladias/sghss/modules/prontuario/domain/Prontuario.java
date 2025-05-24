@@ -34,6 +34,8 @@ public class Prontuario {
 
     private String diagnostico;
 
+    private String anotacoes;
+
     // PACIENTE
     @ManyToOne
     @JoinColumn(name = "paciente_id", insertable = false, updatable = false)
@@ -51,8 +53,6 @@ public class Prontuario {
     // Consulta
     @OneToOne
     private Consulta consulta;
-
-    private String anotacoes;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
