@@ -57,6 +57,7 @@ public class CriarPronturarioUseCase {
         this.prontuarioRepository.save(prontuario);
 
         return ProntuarioResponseDTO.builder()
+                .id(prontuario.getId())
                 .nomePaciente(paciente.getNome())
                 .profissionalDeSaude(profissional.getNome())
                 .diagnostico(prontuario.getDiagnostico())

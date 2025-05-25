@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProntuarioResponseDTO {
+    private UUID id;
     private String nomePaciente;
     private String profissionalDeSaude;
     private String diagnostico;
