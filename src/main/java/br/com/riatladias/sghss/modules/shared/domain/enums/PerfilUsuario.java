@@ -4,6 +4,7 @@ public enum PerfilUsuario {
     ADMIN("Administrador"),
     MEDICO("Médico"),
     ENFERMEIRO("Enfermeiro"),
+    RECEPCIONISTA("Recepcionista"),
     TECNICO("Técnico"),
     PACIENTE("Paciente");
 

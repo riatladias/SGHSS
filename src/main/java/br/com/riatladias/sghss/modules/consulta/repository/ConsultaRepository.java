@@ -8,9 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.riatladias.sghss.modules.consulta.domain.Consulta;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
-
     List<Consulta> findByPacienteId(UUID pacienteId);
-
-    
-
 }
