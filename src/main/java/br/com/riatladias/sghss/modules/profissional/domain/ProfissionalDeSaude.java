@@ -29,11 +29,11 @@ public class ProfissionalDeSaude {
     @NotBlank
     private String especialidade;
 
-    @Email
+    @Email(message = "O campo [email] deve conter um e-mail válido")
     private String email;
     private String telefone;
 
-    @CreationTimestamp 
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
 }
