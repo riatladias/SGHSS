@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +32,8 @@ public class PacienteController {
     private ObterPacienteUseCase obterPacienteUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<Object> create(@Valid @RequestBody Paciente paciente) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
+    public ResponseEntity<Object> criarPaciente(@Valid @RequestBody Paciente paciente) {
         try {
             var result = this.criarPacienteUseCase.execute(paciente);
             return ResponseEntity.ok().body(result);
@@ -42,12 +44,14 @@ public class PacienteController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<Paciente>> listasPacientes() {
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
+    public ResponseEntity<List<Paciente>> listarPacientes() {
         var result = this.listarPacientesUseCase.execute();
         return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/obter")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
     public ResponseEntity<Object> obterPaciente(@RequestBody UUID id) {
         try {
             var paciente = this.obterPacienteUseCase.execute(id);

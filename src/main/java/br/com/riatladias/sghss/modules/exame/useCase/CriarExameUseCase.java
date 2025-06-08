@@ -1,5 +1,7 @@
 package br.com.riatladias.sghss.modules.exame.useCase;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ import br.com.riatladias.sghss.modules.paciente.repository.PacienteRepository;
 import br.com.riatladias.sghss.modules.profissional.repository.ProfissionalRepository;
 
 @Service
-public class ExameUseCase {
+public class CriarExameUseCase {
 
     @Autowired
     private PacienteRepository pacienteRepository;
@@ -23,20 +25,20 @@ public class ExameUseCase {
     @Autowired
     private ExameRepository exameRepository;
 
-    public Exame execute(ExameRequestDTO dto) {
+    public Exame execute(ExameRequestDTO dto, UUID profissionalId) {
         this.pacienteRepository.findById(dto.getPacienteId())
                 .orElseThrow(() -> {
                     throw new PacienteNotFoundException();
                 });
 
-        this.profissionalRepository.findById(dto.getProfissionalId())
+        this.profissionalRepository.findById(profissionalId)
                 .orElseThrow(() -> {
                     throw new ProfissionalNotFoundException();
                 });
 
         var exame = Exame.builder()
                 .pacienteId(dto.getPacienteId())
-                .profissionalId(dto.getProfissionalId())
+                .profissionalId(profissionalId)
                 .tipo(dto.getTipo())
                 .dataHora(dto.getDataHora())
                 .resultado(dto.getResultado())

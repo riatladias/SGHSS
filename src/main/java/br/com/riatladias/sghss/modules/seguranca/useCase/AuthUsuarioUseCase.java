@@ -2,7 +2,6 @@ package br.com.riatladias.sghss.modules.seguranca.useCase;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 
 import javax.naming.AuthenticationException;
 
@@ -35,12 +34,11 @@ public class AuthUsuarioUseCase {
         // Validação do usuário
         var user = this.usuarioRepository.findByUsername(dto.getUsername())
                 .orElseThrow(() -> {
-                    throw new UsernameNotFoundException("Username/password incorrect");
+                    throw new UsernameNotFoundException("Username/password incorreto.");
                 });
 
         // Validação da senha
         var passwordMatches = this.passwordEncoder.matches(dto.getPassword(), user.getPassword());
-        
         if (!passwordMatches) {
             throw new AuthenticationException();
         }
@@ -49,12 +47,16 @@ public class AuthUsuarioUseCase {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         var expireIn = Instant.now().plus(Duration.ofHours(2));
-        
+
+        var rolesList = user.getPerfis().stream().map(perfis -> {
+            return perfis.toString();
+        }).toList();
+
         var token = JWT.create()
                 .withIssuer("SGHSS") // Emissor
                 .withExpiresAt(expireIn)
-                .withSubject(user.getId().toString()) // ID do usuário
-                .withClaim("roles", Arrays.asList("USUARIO"))
+                .withSubject(user.getProfissionalId().toString()) // ID do profissional de saúde
+                .withClaim("roles", rolesList)
                 .sign(algorithm);
 
         var authUsuarioResponseDTO = AuthUsuarioResponseDTO.builder()

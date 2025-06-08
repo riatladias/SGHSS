@@ -14,15 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExameRequestDTO {
+    private UUID id;
+
     @NotNull
     private UUID pacienteId;
 
     @NotNull
-    private UUID profissionalId;
-
-    @NotNull
     private String tipo;
-    
+
     @NotNull
     private LocalDateTime dataHora;
 

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ import br.com.riatladias.sghss.modules.consulta.dto.CancelarConsultaRequestDTO;
 import br.com.riatladias.sghss.modules.consulta.dto.ConsultaRequestDTO;
 import br.com.riatladias.sghss.modules.consulta.useCase.CancelarConsultaUseCase;
 import br.com.riatladias.sghss.modules.consulta.useCase.CriarConsultaUseCase;
-import br.com.riatladias.sghss.modules.consulta.useCase.ListagemDeConsultaUseCase;
+import br.com.riatladias.sghss.modules.consulta.useCase.ListarConsultaUseCase;
 import br.com.riatladias.sghss.modules.consulta.useCase.ObterConsultaUseCase;
 import br.com.riatladias.sghss.modules.consulta.useCase.RealizarConsultaUseCase;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class ConsultaController {
     private ObterConsultaUseCase obterConsultaUseCase;
 
     @Autowired
-    private ListagemDeConsultaUseCase listagemDeConsultaUseCase;
+    private ListarConsultaUseCase listagemDeConsultaUseCase;
 
     @Autowired
     private CancelarConsultaUseCase cancelarConsultaUseCase;
@@ -40,7 +41,8 @@ public class ConsultaController {
     private RealizarConsultaUseCase realizarConsultaUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<Object> create(@Valid @RequestBody ConsultaRequestDTO consultaRequestDTO) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
+    public ResponseEntity<Object> criarConsulta(@Valid @RequestBody ConsultaRequestDTO consultaRequestDTO) {
         try {
             var result = this.criarConsultaUseCase.execute(consultaRequestDTO);
             return ResponseEntity.ok().body(result);
@@ -50,6 +52,7 @@ public class ConsultaController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
     public ResponseEntity<Object> obterConsulta(@Valid @RequestBody UUID id) {
         try {
             var result = this.obterConsultaUseCase.execute(id);
@@ -59,8 +62,9 @@ public class ConsultaController {
         }
     }
 
-    @GetMapping("/listagem")
-    public ResponseEntity<Object> listagemDasConsultas(@RequestBody UUID pacienteId) {
+    @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
+    public ResponseEntity<Object> listarConsultas(@RequestBody UUID pacienteId) {
         try {
             var listagem = this.listagemDeConsultaUseCase.execute(pacienteId);
             return ResponseEntity.ok().body(listagem);
@@ -70,6 +74,7 @@ public class ConsultaController {
     }
 
     @PatchMapping("/cancelar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
     public ResponseEntity<Object> cancelarConsulta(@Valid @RequestBody CancelarConsultaRequestDTO dto) {
         try {
             var consulta = this.cancelarConsultaUseCase.execute(dto);
@@ -80,6 +85,7 @@ public class ConsultaController {
     }
 
     @PostMapping("/realizar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO')")
     public ResponseEntity<Object> realizarConsulta(@RequestBody UUID id) {
         try {
             var result = this.realizarConsultaUseCase.execute(id);

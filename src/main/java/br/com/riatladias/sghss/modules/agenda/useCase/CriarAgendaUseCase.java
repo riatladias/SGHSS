@@ -3,6 +3,7 @@ package br.com.riatladias.sghss.modules.agenda.useCase;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class CriarAgendaUseCase {
     private AgendaMedicaRepositoy agendaMedicaRepositoy;
 
     @Transactional
-    public List<AgendaMedica> execute(AgendaRequestDTO dto) {
-        var profissional = this.profissionalRepository.findById(dto.getProfissionalId())
+    public List<AgendaMedica> execute(AgendaRequestDTO dto, UUID profissionalId) {
+        var profissional = this.profissionalRepository.findById(profissionalId)
                 .orElseThrow(() -> {
                     throw new ProfissionalNotFoundException();
                 });

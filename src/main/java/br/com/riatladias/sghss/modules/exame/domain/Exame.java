@@ -33,19 +33,18 @@ public class Exame {
     private LocalDateTime dataHora;
 
     private String resultado;
-    
+
     // PACIENTE
     @ManyToOne
     @JoinColumn(name = "paciente_id", insertable = false, updatable = false)
     private Paciente paciente;
-
     @Column(name = "paciente_id", nullable = false)
     private UUID pacienteId;
+
     // PROFISSIONAL DE SAUDE
     @ManyToOne
     @JoinColumn(name = "profissional_id", insertable = false, updatable = false)
     private ProfissionalDeSaude profissionalDeSaude;
-    
     @Column(name = "profissional_id", nullable = false)
     private UUID profissionalId;
 }

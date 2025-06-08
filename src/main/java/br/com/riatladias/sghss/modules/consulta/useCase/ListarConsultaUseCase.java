@@ -12,7 +12,7 @@ import br.com.riatladias.sghss.modules.historico.dto.ConsultaDTO;
 import br.com.riatladias.sghss.modules.paciente.repository.PacienteRepository;
 
 @Service
-public class ListagemDeConsultaUseCase {
+public class ListarConsultaUseCase {
 
     @Autowired
     private ConsultaRepository consultaRepository;
@@ -21,7 +21,6 @@ public class ListagemDeConsultaUseCase {
     private PacienteRepository pacienteRepository;
 
     public List<ConsultaDTO> execute(UUID pacienteId) {
-
         this.pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> {
                     throw new PacienteNotFoundException();

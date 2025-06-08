@@ -5,8 +5,7 @@ public enum PerfilUsuario {
     MEDICO("Médico"),
     ENFERMEIRO("Enfermeiro"),
     RECEPCIONISTA("Recepcionista"),
-    TECNICO("Técnico"),
-    PACIENTE("Paciente");
+    TECNICO("Técnico");
 
     private String description;
 

@@ -1,10 +1,10 @@
 package br.com.riatladias.sghss.security;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,16 +27,22 @@ public class SecurityFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (header != null) {
-            var subject = this.jwtProvider.validateToken(header);
+            var token = this.jwtProvider.validateToken(header);
 
-            if (subject.isEmpty()) {
+            if (token == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-            request.setAttribute("usuario_id", subject);
+            var roles = token.getClaim("roles").asList(Object.class);
 
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(subject, null,
-                    Collections.emptyList());
+            var grants = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString()))
+                    .toList();
+
+            request.setAttribute("profissional_id", token.getSubject());
+
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(token.getSubject(), null,
+                    grants);
+
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
         filterChain.doFilter(request, response);

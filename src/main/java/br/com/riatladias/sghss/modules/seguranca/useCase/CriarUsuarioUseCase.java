@@ -18,7 +18,7 @@ public class CriarUsuarioUseCase {
     private UsuarioRepository usuarioRepository;
 
     public Usuario execute(Usuario usuario) {
-        this.usuarioRepository.findByUsernameOrEmail(usuario.getUsername(), usuario.getEmail())
+        this.usuarioRepository.findByUsername(usuario.getUsername())
                 .ifPresent(user -> {
                     throw new UserFoundException("Usuário já existe");
                 });

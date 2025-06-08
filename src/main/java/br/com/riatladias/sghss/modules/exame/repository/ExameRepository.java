@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.riatladias.sghss.modules.exame.domain.Exame;
 
 public interface ExameRepository extends JpaRepository<Exame, UUID> {
-    
     List<Exame> findByPacienteId(UUID pacienteId);
 
 }

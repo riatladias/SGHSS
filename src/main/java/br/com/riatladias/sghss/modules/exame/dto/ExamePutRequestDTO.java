@@ -1,9 +1,9 @@
 package br.com.riatladias.sghss.modules.exame.dto;
 
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExameResponseDTO {
+public class ExamePutRequestDTO {
+    @NotNull
     private UUID id;
-    private String nomePaciente;
-    private String nomeProfissional;
+    private UUID pacienteId;
     private String tipo;
     private LocalDateTime dataHora;
     private String resultado;
