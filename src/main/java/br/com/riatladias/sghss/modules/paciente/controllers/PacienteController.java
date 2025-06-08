@@ -8,11 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.riatladias.sghss.modules.paciente.domain.Paciente;
+import br.com.riatladias.sghss.modules.paciente.dto.PacientePutRequestDTO;
+import br.com.riatladias.sghss.modules.paciente.useCases.AtualizarPacienteUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.CriarPacienteUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.ListarPacientesUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.ObterPacienteUseCase;
@@ -30,6 +33,9 @@ public class PacienteController {
 
     @Autowired
     private ObterPacienteUseCase obterPacienteUseCase;
+
+    @Autowired
+    private AtualizarPacienteUseCase atualizarPacienteUseCase;
 
     @PostMapping("/")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
@@ -59,7 +65,17 @@ public class PacienteController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
 
+    @PutMapping("/atualizar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
+    public ResponseEntity<Object> atualizarPaciente(@RequestBody PacientePutRequestDTO dto) {
+        try {
+            var result = this.atualizarPacienteUseCase.execute(dto);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
