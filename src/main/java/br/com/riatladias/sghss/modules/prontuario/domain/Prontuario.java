@@ -54,7 +54,10 @@ public class Prontuario {
     @OneToOne
     private Consulta consulta;
 
+    // Evolução médica
+    private String evolucao;
+    private UUID profissionalEvolucao;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
-
 }

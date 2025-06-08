@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AgendaRequestDTO {
     private UUID profissionalId;
-    @NotNull
-    private LocalDate data; 
+    private LocalDate data;
     private LocalTime horaInicio;
     private LocalTime horaFim;
     private Long duracaoMinutos;

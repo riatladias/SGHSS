@@ -1,5 +1,7 @@
 package br.com.riatladias.sghss.modules.prontuario.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +15,7 @@ import br.com.riatladias.sghss.modules.prontuario.dto.ProntuarioPutRequestDTO;
 import br.com.riatladias.sghss.modules.prontuario.dto.ProntuarioResquestDTO;
 import br.com.riatladias.sghss.modules.prontuario.useCase.AtualizarProntuarioUseCase;
 import br.com.riatladias.sghss.modules.prontuario.useCase.CriarPronturarioUseCase;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,7 +31,6 @@ public class ProntuarioController {
     @PostMapping("/")
     @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'TECNICO')")
     public ResponseEntity<Object> create(@Valid @RequestBody ProntuarioResquestDTO dto) {
-
         try {
             var result = this.criarPronturarioUseCase.execute(dto);
             return ResponseEntity.ok().body(result);
@@ -38,11 +40,12 @@ public class ProntuarioController {
     }
 
     @PutMapping("/")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO', 'TECNICO')")
-    public ResponseEntity<Object> atulaizarProntuario(@Valid @RequestBody ProntuarioPutRequestDTO dto) {
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'TECNICO')")
+    public ResponseEntity<Object> atulaizarProntuario(@Valid @RequestBody ProntuarioPutRequestDTO dto,
+            HttpServletRequest request) {
         try {
-            var result = this.atualizarProntuarioUseCase.execute(dto);
+            var profissionalId = request.getAttribute("profissional_id").toString();
+            var result = this.atualizarProntuarioUseCase.execute(dto, UUID.fromString(profissionalId));
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

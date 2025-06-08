@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 import br.com.riatladias.sghss.modules.agenda.domain.AgendaMedica;
 
 @Repository
-public interface AgendaMedicaRepositoy extends JpaRepository<AgendaMedica, UUID>  {
+public interface AgendaMedicaRepositoy extends JpaRepository<AgendaMedica, UUID> {
     Optional<List<AgendaMedica>> findByProfissionalIdAndData(UUID profissionalId, LocalDate data);
+
+    Optional<List<AgendaMedica>> findByProfissionalId(UUID profissionalId);
 
     Optional<List<AgendaMedica>> findByProfissionalIdAndDisponivelTrueAndData(UUID profissionalId, LocalDate data);
 

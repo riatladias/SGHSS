@@ -17,5 +17,7 @@ public class ProntuarioResponseDTO {
     private String profissionalDeSaude;
     private String diagnostico;
     private String anotacoes;
+    private String evolucao;
+    private UUID profissionalResponsavelEvolucao;
     private UUID consultaId;
 }

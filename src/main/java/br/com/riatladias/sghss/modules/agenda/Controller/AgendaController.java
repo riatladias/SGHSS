@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.riatladias.sghss.modules.agenda.domain.AgendaMedica;
 import br.com.riatladias.sghss.modules.agenda.dto.AgendaRequestDTO;
 import br.com.riatladias.sghss.modules.agenda.useCase.CriarAgendaUseCase;
-import br.com.riatladias.sghss.modules.agenda.useCase.ListarAgendaMedica;
+import br.com.riatladias.sghss.modules.agenda.useCase.ListarAgendaDisponivelUseCase;
+import br.com.riatladias.sghss.modules.agenda.useCase.ListarAgendasMedicaUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/agenda")
@@ -28,7 +30,10 @@ public class AgendaController {
     private CriarAgendaUseCase criarAgendaUseCase;
 
     @Autowired
-    private ListarAgendaMedica listarAgendaMedica;
+    private ListarAgendaDisponivelUseCase listarAgendaMedicaDisponiveis;
+
+    @Autowired
+    private ListarAgendasMedicaUseCase listarAgendasMedicaUseCase;
 
     @PostMapping("/criar")
     @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO')")
@@ -47,7 +52,20 @@ public class AgendaController {
     public ResponseEntity<Optional<List<AgendaMedica>>> listarDisponiveis(@Valid @RequestBody AgendaRequestDTO dto,
             HttpServletRequest request) {
         var profissionalId = request.getAttribute("profissional_id").toString();
-        var disponiveis = this.listarAgendaMedica.execute(dto, UUID.fromString(profissionalId.toString()));
+        var disponiveis = this.listarAgendaMedicaDisponiveis.execute(dto, UUID.fromString(profissionalId));
         return ResponseEntity.ok().body(disponiveis);
     }
+
+
+    @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
+    public ResponseEntity<Object> listarAgendaMedica(@Valid @RequestBody AgendaRequestDTO dto) {
+        try {
+            var result = this.listarAgendasMedicaUseCase.execute(dto);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
 }

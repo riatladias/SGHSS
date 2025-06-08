@@ -9,8 +9,7 @@ import lombok.Data;
 public class ProntuarioPutRequestDTO {
     @NotNull
     private UUID prontuarioId;
-    private UUID profissionalId;
-    private UUID pacienteId;
     private String anotacoes;
     private String diagnostico;
+    private String evolucao;
 }
