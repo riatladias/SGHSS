@@ -26,7 +26,6 @@ public class SecurityConfig {
                             .requestMatchers("/profissional/").permitAll();
                     auth.anyRequest().authenticated();
                 }).addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
-
         return http.build();
     }
 

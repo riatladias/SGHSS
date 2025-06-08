@@ -2,6 +2,7 @@ package br.com.riatladias.sghss.modules.historico.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class HistoricoClinicoController {
     private HistoricoClinicoUseCase historicoClinicoUseCase;
 
     @GetMapping("/historico")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'TECNICO')")
     public ResponseEntity<Object> obterHistorico(@Valid @RequestBody HistoricoClinicoRequestDTO dto) {
         try {
             var result = this.historicoClinicoUseCase.execute(dto);

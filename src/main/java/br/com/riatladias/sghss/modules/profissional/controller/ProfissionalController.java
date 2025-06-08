@@ -19,6 +19,7 @@ public class ProfissionalController {
     private CriarProfissionalUseCase criarProfissionalUseCase;
 
     @PostMapping("/")
+    // @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Object> create(@Valid @RequestBody ProfissionalDeSaude profissionalDeSaude) {
 
         try {

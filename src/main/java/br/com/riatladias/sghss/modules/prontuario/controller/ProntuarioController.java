@@ -2,6 +2,7 @@ package br.com.riatladias.sghss.modules.prontuario.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public class ProntuarioController {
     private AtualizarProntuarioUseCase atualizarProntuarioUseCase;
 
     @PostMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'TECNICO')")
     public ResponseEntity<Object> create(@Valid @RequestBody ProntuarioResquestDTO dto) {
 
         try {
@@ -36,6 +38,7 @@ public class ProntuarioController {
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO', 'TECNICO')")
     public ResponseEntity<Object> atulaizarProntuario(@Valid @RequestBody ProntuarioPutRequestDTO dto) {
 
         try {
