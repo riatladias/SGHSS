@@ -9,7 +9,7 @@ import br.com.riatladias.sghss.modules.paciente.dto.PacienteResponseDTO;
 import br.com.riatladias.sghss.modules.paciente.repository.PacienteRepository;
 
 @Service
-public class AtualizarPacienteUseCase {
+public class EditarPacienteUseCase {
     @Autowired
     private PacienteRepository pacienteRepository;
 

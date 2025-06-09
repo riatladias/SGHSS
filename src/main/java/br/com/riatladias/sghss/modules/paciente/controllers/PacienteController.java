@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.riatladias.sghss.modules.paciente.domain.Paciente;
 import br.com.riatladias.sghss.modules.paciente.dto.PacientePutRequestDTO;
-import br.com.riatladias.sghss.modules.paciente.useCases.AtualizarPacienteUseCase;
+import br.com.riatladias.sghss.modules.paciente.useCases.EditarPacienteUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.CriarPacienteUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.ListarPacientesUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.ObterPacienteUseCase;
@@ -35,7 +35,7 @@ public class PacienteController {
     private ObterPacienteUseCase obterPacienteUseCase;
 
     @Autowired
-    private AtualizarPacienteUseCase atualizarPacienteUseCase;
+    private EditarPacienteUseCase editarPacienteUseCase;
 
     @PostMapping("/")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
@@ -67,11 +67,11 @@ public class PacienteController {
         }
     }
 
-    @PutMapping("/atualizar")
+    @PutMapping("/editar")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
     public ResponseEntity<Object> atualizarPaciente(@RequestBody PacientePutRequestDTO dto) {
         try {
-            var result = this.atualizarPacienteUseCase.execute(dto);
+            var result = this.editarPacienteUseCase.execute(dto);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
