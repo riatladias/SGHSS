@@ -3,7 +3,8 @@ package br.com.riatladias.sghss.modules.seguranca.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,9 +13,6 @@ import br.com.riatladias.sghss.modules.seguranca.dto.AuthUsuarioDTO;
 import br.com.riatladias.sghss.modules.seguranca.useCase.AuthUsuarioUseCase;
 import br.com.riatladias.sghss.modules.seguranca.useCase.CriarUsuarioUseCase;
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/usuario")
@@ -27,7 +25,7 @@ public class UsuarioController {
     private AuthUsuarioUseCase authUsuarioUseCase;
 
     @PostMapping("/")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    // @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Object> criarUsuario(@Valid @RequestBody Usuario usuario) {
         try {
             var user = this.criarUsuarioUseCase.execute(usuario);
