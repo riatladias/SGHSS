@@ -21,7 +21,7 @@ public class CriarPrescricaoUseCase {
     private PacienteRepository pacienteRepository;
 
     public Prescricao execute(PrescricaoRequestDTO dto, UUID profissionalId) {
-        var paciente = pacienteRepository.findById(dto.pacienteId())
+        var paciente = this.pacienteRepository.findById(dto.pacienteId())
                 .orElseThrow(() -> {
                     throw new PacienteNotFoundException();
                 });
