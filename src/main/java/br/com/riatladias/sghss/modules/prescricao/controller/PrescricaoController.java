@@ -45,6 +45,7 @@ public class PrescricaoController {
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'ENFERMEIRO')")
     public ResponseEntity<Object> listarPrescricoes(@RequestBody UUID id) {
         try {
             var result = this.listarPrescricaoUseCase.execute(id);
@@ -55,6 +56,7 @@ public class PrescricaoController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'ENFERMEIRO')")
     public ResponseEntity<Object> obterPrescricoes(@RequestBody ObterPrescriçãoDTO dto) {
         try {
             var result = this.obterPrescricaoUseCase.execute(dto);

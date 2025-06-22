@@ -8,6 +8,7 @@ import br.com.riatladias.sghss.exceptions.ProfissionalNotFoundException;
 import br.com.riatladias.sghss.modules.agenda.repository.AgendaMedicaRepositoy;
 import br.com.riatladias.sghss.modules.consulta.domain.Consulta;
 import br.com.riatladias.sghss.modules.consulta.dto.ConsultaRequestDTO;
+import br.com.riatladias.sghss.modules.consulta.dto.ConsultaResponseDTO;
 import br.com.riatladias.sghss.modules.consulta.repository.ConsultaRepository;
 import br.com.riatladias.sghss.modules.paciente.repository.PacienteRepository;
 import br.com.riatladias.sghss.modules.profissional.repository.ProfissionalRepository;
@@ -27,13 +28,13 @@ public class CriarConsultaUseCase {
     @Autowired
     private AgendaMedicaRepositoy agendaMedicaRepositoy;
 
-    public Consulta execute(ConsultaRequestDTO dto) {
-        this.pacienteRepository.findById(dto.getPacienteId())
+    public ConsultaResponseDTO execute(ConsultaRequestDTO dto) {
+        var paciente = this.pacienteRepository.findById(dto.getPacienteId())
                 .orElseThrow(() -> {
                     throw new PacienteNotFoundException();
                 });
 
-        this.profissionalRepository.findById(dto.getProfissionalId())
+        var profissional = this.profissionalRepository.findById(dto.getProfissionalId())
                 .orElseThrow(() -> {
                     throw new ProfissionalNotFoundException();
                 });
@@ -44,7 +45,7 @@ public class CriarConsultaUseCase {
         if (!agenda.isDisponivel()) {
             throw new RuntimeException("Horário indisponível");
         }
-        
+
         agenda.setDisponivel(false);
 
         this.agendaMedicaRepositoy.save(agenda);
@@ -57,7 +58,13 @@ public class CriarConsultaUseCase {
                 .status(StatusConsulta.AGENDADA)
                 .build();
 
-        return this.consultaRepository.save(consulta);
+        this.consultaRepository.save(consulta);
 
+        return ConsultaResponseDTO.builder()
+                .nomePaciente(paciente.getNome())
+                .nomeProfissional(profissional.getNome())
+                .status(consulta.getStatus())
+                .observacoes(consulta.getObservacoes())
+                .build();
     }
 }

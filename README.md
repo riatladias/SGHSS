@@ -11,7 +11,7 @@
 </div>
 
 ## 🔥 Descrição
-API REST
+O trabalho tem como objetivo desenvolver um Sistema de Gestão Hospitalar e de Serviços de Saúde (SGHSS), atendendo ao estudo de caso apresentado pela disciplina. O sistema será desenvolvido e voltado para o Back-end, utilizando a linguagem Java com o framework Spring Boot.
 
 ## ⚙️ Pré-requisitos
 - Java 17

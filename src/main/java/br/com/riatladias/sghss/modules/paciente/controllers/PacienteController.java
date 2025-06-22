@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.riatladias.sghss.modules.paciente.domain.Paciente;
 import br.com.riatladias.sghss.modules.paciente.dto.PacientePutRequestDTO;
+import br.com.riatladias.sghss.modules.paciente.dto.PacienteResponseDTO;
 import br.com.riatladias.sghss.modules.paciente.useCases.EditarPacienteUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.CriarPacienteUseCase;
 import br.com.riatladias.sghss.modules.paciente.useCases.ListarPacientesUseCase;
@@ -51,7 +52,7 @@ public class PacienteController {
 
     @GetMapping("/listar")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO')")
-    public ResponseEntity<List<Paciente>> listarPacientes() {
+    public ResponseEntity<List<PacienteResponseDTO>> listarPacientes() {
         var result = this.listarPacientesUseCase.execute();
         return ResponseEntity.ok().body(result);
     }

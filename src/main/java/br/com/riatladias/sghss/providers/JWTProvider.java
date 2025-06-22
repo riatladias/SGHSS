@@ -28,6 +28,5 @@ public class JWTProvider {
             ex.printStackTrace();
             return null;
         }
-
     }
 }

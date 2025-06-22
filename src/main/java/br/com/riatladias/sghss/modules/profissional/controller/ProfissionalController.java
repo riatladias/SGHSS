@@ -51,6 +51,7 @@ public class ProfissionalController {
     }
 
     @PutMapping("/editar")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Object> editarProfissional(@RequestBody ProfissionalDTO dto) {
         try {
             var result = this.editarProfissionalUseCase.execute(dto);

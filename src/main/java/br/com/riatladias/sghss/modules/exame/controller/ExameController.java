@@ -50,7 +50,7 @@ public class ExameController {
     }
 
     @GetMapping("/listar")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO', 'TECNICO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'TECNICO')")
     public ResponseEntity<Object> listarExames(@RequestBody UUID id) {
         try {
             var result = this.listarExameUseCase.execute(id);
@@ -61,7 +61,7 @@ public class ExameController {
     }
 
     @GetMapping("/obter")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'MEDICO', 'TECNICO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEDICO', 'TECNICO')")
     public ResponseEntity<Object> obterExame(@RequestBody UUID id) {
         try {
             var result = this.obterExameUseCase.execute(id);
