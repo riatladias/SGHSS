@@ -22,10 +22,10 @@ O trabalho tem como objetivo desenvolver um Sistema de Gestão Hospitalar e de S
 
 ```bash
 # Clonar repositório
-git clone 
+git clone https://github.com/riatladias/SGHSS.git
 
 # Entrar na pasta do projeto
-cd 
+cd sghss
 
 # Executar o cantainer do banco de dados PostgreSQL
 docker-compose up -d
@@ -53,4 +53,4 @@ mvn spring-boot:run
 
 
 
-### 📍 Endpoints - Criação de paceinte
+### 📍 Endpoints - Criação de paciente
